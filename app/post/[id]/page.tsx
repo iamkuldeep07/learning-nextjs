@@ -7,22 +7,15 @@ import { notFound } from "next/navigation";
 
 async function getData(id: string) {
   const data = await prisma.blogPost.findUnique({
-    where: {
-      id: id,
-    },
+    where: { id },
   });
 
-  if (!data) {
-    return notFound();
-  }
-
+  if (!data) throw notFound(); // ✅ throw, don't return
   return data;
 }
 
-type Params = Promise<{ id: string }>;
-
-export default async function IdPage({ params }: { params: Params }) {
-  const { id } = await params;
+export default async function IdPage({ params }: { params: { id: string } }) {
+  const { id } = params;
   const data = await getData(id);
 
   return (
@@ -70,7 +63,7 @@ export default async function IdPage({ params }: { params: Params }) {
 
       <Card>
         <CardContent>
-            <p className="text-gray-700">{data.content}</p>
+          <p className="text-gray-700">{data.content}</p>
         </CardContent>
       </Card>
     </div>
