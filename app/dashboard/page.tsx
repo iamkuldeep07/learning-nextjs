@@ -26,7 +26,7 @@ export default async function DashboardRoute() {
     throw new Error("User not authenticated");
   }
 
-  const data = await getData(user.id);
+  const data = await getData(user?.id);
 
   return (
     <div>
