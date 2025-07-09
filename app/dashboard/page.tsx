@@ -22,11 +22,11 @@ export default async function DashboardRoute() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if (!user || !user.id) {
-    throw new Error("User not authenticated");
-  }
+  // if (!user || !user.id) {
+  //   throw new Error("User not authenticated");
+  // }
 
-  const data = await getData(user.id);
+  const data = await getData(user?.id);
 
   return (
     <div>
