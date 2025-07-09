@@ -10,19 +10,15 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  // ✅ Next.js config
+  // ✅ Standard Next.js and TypeScript config
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 
-  // ✅ Ignore Prisma-generated files (or override rules)
+  // ✅ Ignore all Prisma-generated files completely
   {
-    files: ["lib/generated/prisma/**/*", "node_modules/@prisma/client/**/*"],
-    rules: {
-      "@typescript-eslint/no-explicit-any": "off",
-      "@typescript-eslint/no-empty-object-type": "off",
-      "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "@typescript-eslint/no-unnecessary-type-constraint": "off",
-    },
+    ignores: [
+      "lib/generated/prisma/**/*", // adjust path if your generated Prisma files are elsewhere
+      "node_modules/@prisma/client/**/*", // Prisma package
+    ],
   },
 ];
 
