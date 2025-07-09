@@ -5,25 +5,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const revalidate = 200;
+
 async function getData(id: string) {
   const data = await prisma.blogPost.findUnique({
-    where: { id },
+    where: {
+      id: id,
+    },
   });
 
-  if (!data) throw notFound(); // ✅ throw, don't return
+  if (!data) {
+    return notFound();
+  }
+
   return data;
 }
 
-export default async function IdPage({ params }: { params: { id: string } }) {
-  const { id } = params;
+type Params = Promise<{ id: string }>;
+
+export default async function IdPage({ params }: { params: Params }) {
+  const { id } = await params;
   const data = await getData(id);
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
-      <Link
-        className={buttonVariants({ variant: "secondary" })}
-        href="/"
-      >
+      <Link className={buttonVariants({ variant: "secondary" })} href="/">
         Back to posts
       </Link>
 
@@ -69,5 +75,3 @@ export default async function IdPage({ params }: { params: { id: string } }) {
     </div>
   );
 }
-
-
